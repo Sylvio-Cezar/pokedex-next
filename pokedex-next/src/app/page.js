@@ -1,7 +1,7 @@
-import Image from "next/image"
+import Pokemon from "./components/pokemon"
 
 async function getData() {
-  const res = await fetch('http://localhost:3000/api/pokemon/')
+  const res = await fetch('http://localhost:3000/api/pokemon/?limit=151')
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
  
@@ -16,18 +16,8 @@ async function getData() {
 export default async function Home() {
   const data = await getData()
   return (
-    <main className="grid grid-cols-3 min-h-screen p-24">
-      {data.data.results.map((pokemon) => 
-      <div key={pokemon.id}>
-        <h1>{pokemon.name}</h1>
-        <Image
-          src={pokemon.image}
-          width={250}
-          height={250}
-          alt={pokemon.name}
-        />
-      </div>
-      )}
+    <main className="grid grid-cols-2 md:grid-cols-3 gap-4 min-h-screen p-24">
+      {data.data.results.map((pokemon) => <Pokemon pokemon={pokemon}/>)}
     </main>
   )
 }
